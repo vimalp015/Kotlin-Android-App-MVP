@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/account_summary_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/account_summary_border"
+    android:padding="@dimen/account_summary_border_width">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/wallet_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_transactional"
+        android:layout_marginLeft="@dimen/default_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/account_name_text_view"
+        style="@style/HeaderText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        app:layout_constraintLeft_toRightOf="@id/wallet_image_view"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Account name" />
+
+    <TextView
+        android:id="@+id/account_number_text_view"
+        style="@style/GreyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/wallet_image_view"
+        app:layout_constraintTop_toBottomOf="@id/account_name_text_view"
+        tools:text="Account number" />
+
+    <TextView
+        android:id="@+id/available_funds_label_text_view"
+        style="@style/GreyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_background"
+        android:paddingBottom="@dimen/default_padding"
+        android:paddingLeft="@dimen/greyed_summary_left_padding"
+        android:paddingTop="@dimen/default_padding"
+        android:text="@string/available_funds"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wallet_image_view" />
+
+    <TextView
+        android:id="@+id/available_funds_value_text_view"
+        style="@style/BlackText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_background"
+        android:gravity="right"
+        android:paddingBottom="@dimen/default_padding"
+        android:paddingRight="@dimen/default_padding"
+        android:paddingTop="@dimen/default_padding"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/available_funds_label_text_view"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wallet_image_view"
+        tools:text="$372.10" />
+
+    <TextView
+        android:id="@+id/account_balance_label_text_view"
+        style="@style/GreyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_background"
+        android:paddingBottom="@dimen/default_padding"
+        android:paddingLeft="@dimen/greyed_summary_left_padding"
+        android:paddingTop="@dimen/default_padding"
+        android:text="@string/account_balance"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/available_funds_label_text_view" />
+
+    <TextView
+        android:id="@+id/account_balance_value_text_view"
+        style="@style/GreyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_background"
+        android:gravity="right"
+        android:paddingBottom="@dimen/default_padding"
+        android:paddingRight="@dimen/default_padding"
+        android:paddingTop="@dimen/default_padding"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/account_balance_label_text_view"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/available_funds_value_text_view"
+        tools:text="$372.10" />
+
+</android.support.constraint.ConstraintLayout>

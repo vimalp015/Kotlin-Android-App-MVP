@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Lets Pay</string>
+    <string name="loading_title">Loading</string>
+    <string name="loading_message">We are loading your latest transactions...</string>
+    <string name="unable_to_load_error">Unable to load, please try again</string>
+    <string name="try_again">TRY AGAIN</string>
+    <string name="account_details">Account details</string>
+    <string name="available_funds">Available funds</string>
+    <string name="account_balance">Account balance</string>
+    <string name="transactionPending">PENDING:</string>
+</resources>

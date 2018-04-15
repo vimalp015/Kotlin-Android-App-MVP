@@ -1,0 +1,47 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="LetsPayTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="cpbStyle">@style/CircularThemeProgressBar</item>
+    </style>
+
+    <style name="BlackText">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/other_font_size</item>
+    </style>
+
+    <style name="GreyText">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">@dimen/other_font_size</item>
+    </style>
+
+    <style name="HeaderText" parent="BlackText">
+        <item name="android:textSize">@dimen/header_font_size</item>
+    </style>
+
+    <style name="ErrorLayoutText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="LetsPayToolbar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/toolbar_background_color</item>
+        <item name="android:elevation" tools:targetApi="lollipop">@dimen/appbar_elevation</item>
+    </style>
+
+    <style name="CircularThemeProgressBar" parent="CircularProgressBar">
+        <item name="cpb_color">@color/colorAccent</item>
+        <item name="cpb_max_sweep_angle">300</item>
+        <item name="cpb_min_sweep_angle">10</item>
+        <item name="cpb_rotation_speed">1.0</item>
+        <item name="cpb_stroke_width">@dimen/circle_progress_stroke</item>
+        <item name="cpb_sweep_speed">1.0</item>
+    </style>
+
+</resources>

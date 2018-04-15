@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transaction_details_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/transaction_details_height"
+    android:background="@color/grey_background">
+
+    <TextView
+        android:id="@+id/pending_label_text_view"
+        style="@style/BlackText"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:padding="@dimen/default_padding"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/divider"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="@string/transactionPending" />
+
+    <TextView
+        android:id="@+id/transaction_description_text_view"
+        style="@style/BlackText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:padding="@dimen/default_padding"
+        android:drawablePadding="@dimen/drawable_padding"
+        app:layout_constraintBottom_toTopOf="@id/divider"
+        app:layout_constraintLeft_toRightOf="@id/pending_label_text_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/transaction_value_text_view"
+        tools:text="PTAG Mount Street Sydney PTAG Mount Street Sydney" />
+
+    <TextView
+        android:id="@+id/transaction_value_text_view"
+        style="@style/BlackText"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="right|center_vertical"
+        android:padding="@dimen/default_padding"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/divider"
+        app:layout_constraintLeft_toRightOf="@id/transaction_description_text_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="$250" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

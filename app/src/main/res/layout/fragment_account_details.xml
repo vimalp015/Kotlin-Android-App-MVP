@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/header_toolbar"
+        style="@style/LetsPayToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_header_height"
+        android:minHeight="?android:attr/actionBarSize"
+        android:padding="@dimen/default_padding"
+        app:contentInsetEnd="@dimen/zero_inset"
+        app:contentInsetLeft="@dimen/zero_inset"
+        app:contentInsetRight="@dimen/zero_inset"
+        app:contentInsetStart="@dimen/zero_inset">
+
+        <ImageView
+            android:id="@+id/back_image_view"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/icon_welcome_logo"
+            android:layout_gravity="center_vertical|start"
+            android:padding="@dimen/default_padding" />
+
+        <TextView
+            android:id="@+id/header_text_view"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/header_text_size"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/default_padding"
+            android:paddingRight="@dimen/default_padding"
+            android:singleLine="true"
+            android:text="@string/account_details" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/header_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <include
+        android:id="@+id/error_loading_layout"
+        layout="@layout/include_error_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</android.support.constraint.ConstraintLayout>

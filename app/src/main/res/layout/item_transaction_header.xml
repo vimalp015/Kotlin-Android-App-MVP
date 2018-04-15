@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transaction_date_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/transaction_header_height"
+    android:background="@color/transaction_header_background">
+
+    <TextView
+        android:id="@+id/transaction_date_text_view"
+        style="@style/BlackText"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:padding="@dimen/default_padding"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="07 JAN 2018" />
+
+    <TextView
+        android:id="@+id/transaction_duration_text_view"
+        style="@style/BlackText"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="right|center_vertical"
+        android:padding="@dimen/default_padding"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="5 days ago" />
+
+</android.support.constraint.ConstraintLayout>

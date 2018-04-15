@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/unable_to_load_text_view"
+        style="@style/ErrorLayoutText"
+        android:text="@string/unable_to_load_error" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/try_again_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:padding="@dimen/default_padding"
+        android:text="@string/try_again" />
+
+</LinearLayout>

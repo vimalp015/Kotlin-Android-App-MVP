@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:bottom="@dimen/divider_height">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white"/>
+            <stroke
+                android:width="@dimen/account_summary_border_width"
+                android:color="@color/account_summary_border_color"
+                />
+        </shape>
+    </item>
+</layer-list>
