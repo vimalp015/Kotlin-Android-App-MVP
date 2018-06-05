@@ -7,13 +7,13 @@ package com.au.vimalprakash.letspay.modules.mainactivity
 
 class MainActivityPresenter : MainAcivityContract.Presenter {
 
-    private var mView: MainAcivityContract.View? = null
+    private var view: MainAcivityContract.View? = null
 
     override fun attachView(view: MainAcivityContract.View) {
-        mView = view
+        this.view = view
     }
 
     override fun detachView() {
-        mView = null
+        view = null
     }
 }

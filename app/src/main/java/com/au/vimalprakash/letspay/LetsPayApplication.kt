@@ -12,19 +12,19 @@ import com.au.vimalprakash.letspay.di.modules.SupportModules
 class LetsPayApplication : Application() {
 
     val baseURL = "https://raw.githubusercontent.com/vimalp015/"
-    private var mActivityComponents: ActivityComponents? = null
+    private var activityComponents: ActivityComponents? = null
 
-    val activityComponents: ActivityComponents
+    val components: ActivityComponents
         get() {
-            if (mActivityComponents == null) {
+            if (activityComponents == null) {
                 val supportComponents = DaggerSupportComponents.builder().supportModules(SupportModules(this)).build()
 
-                mActivityComponents = DaggerActivityComponents.builder().supportComponents(supportComponents)
+                activityComponents = DaggerActivityComponents.builder().supportComponents(supportComponents)
                         .activityModules(ActivityModules())
                         .build()
             }
 
-            return mActivityComponents!!
+            return activityComponents!!
         }
 
     override fun onCreate() {

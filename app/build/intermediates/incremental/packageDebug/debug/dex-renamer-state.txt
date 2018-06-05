@@ -1,4 +1,4 @@
-#Sun Apr 15 16:48:04 AEST 2018
-base.0=C\:\\D\\projects\\LetsPay\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+#Tue Jun 05 23:01:57 AEST 2018
+base.0=C\:\\D\\Android\\Kotlin-Android-App-MVP\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
 path.0=classes.dex
 renamed.0=classes.dex

@@ -6,17 +6,17 @@ import javax.inject.Provider;
 
 public final class TransactionFragment_MembersInjector
     implements MembersInjector<TransactionFragment> {
-  private final Provider<TransactionContract.Presenter> mPresenterProvider;
+  private final Provider<TransactionContract.Presenter> presenterProvider;
 
   public TransactionFragment_MembersInjector(
-      Provider<TransactionContract.Presenter> mPresenterProvider) {
-    assert mPresenterProvider != null;
-    this.mPresenterProvider = mPresenterProvider;
+      Provider<TransactionContract.Presenter> presenterProvider) {
+    assert presenterProvider != null;
+    this.presenterProvider = presenterProvider;
   }
 
   public static MembersInjector<TransactionFragment> create(
-      Provider<TransactionContract.Presenter> mPresenterProvider) {
-    return new TransactionFragment_MembersInjector(mPresenterProvider);
+      Provider<TransactionContract.Presenter> presenterProvider) {
+    return new TransactionFragment_MembersInjector(presenterProvider);
   }
 
   @Override
@@ -24,6 +24,6 @@ public final class TransactionFragment_MembersInjector
     if (instance == null) {
       throw new NullPointerException("Cannot inject members into a null reference");
     }
-    instance.mPresenter = mPresenterProvider.get();
+    instance.presenter = presenterProvider.get();
   }
 }

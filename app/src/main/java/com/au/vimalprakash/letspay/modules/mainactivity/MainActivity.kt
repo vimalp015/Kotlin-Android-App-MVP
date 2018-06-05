@@ -17,7 +17,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), MainAcivityContract.View {
 
     @Inject
-    lateinit var mPresenter: MainAcivityContract.Presenter
+    lateinit var presenter: MainAcivityContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,19 +25,19 @@ class MainActivity : AppCompatActivity(), MainAcivityContract.View {
         setContentView(R.layout.activity_main)
 
         //inject our presenter here
-        LetsPayApplication.instance!!.activityComponents.inject(this)
+        LetsPayApplication.instance!!.components.inject(this)
 
         loadFragment(TransactionFragment(), TransactionFragment.TAG)
     }
 
     override fun onResume() {
         super.onResume()
-        mPresenter.attachView(this)
+        presenter.attachView(this)
     }
 
     override fun onPause() {
         super.onPause()
-        mPresenter.detachView()
+        presenter.detachView()
     }
 
     override fun onBackPressed() {

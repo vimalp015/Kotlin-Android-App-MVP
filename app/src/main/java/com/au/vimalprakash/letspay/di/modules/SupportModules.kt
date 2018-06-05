@@ -1,6 +1,5 @@
 package com.au.vimalprakash.letspay.di.modules
 
-
 import com.au.vimalprakash.letspay.LetsPayApplication
 import com.au.vimalprakash.letspay.networking.LetsPayApi
 import com.au.vimalprakash.letspay.utils.AndroidSchedulersProvider
@@ -19,12 +18,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class SupportModules(private var mLetsPayApplication: LetsPayApplication) {
+class SupportModules(private var letsPayApplication: LetsPayApplication) {
 
     @Provides
     @Singleton
     fun providesApplication(): LetsPayApplication {
-        return mLetsPayApplication
+        return letsPayApplication
     }
 
 
@@ -57,7 +56,7 @@ class SupportModules(private var mLetsPayApplication: LetsPayApplication) {
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(mLetsPayApplication.baseURL)
+                .baseUrl(letsPayApplication.baseURL)
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()

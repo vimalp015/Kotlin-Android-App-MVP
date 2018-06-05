@@ -1,4 +1,0 @@
-#Mon Apr 02 02:05:25 AEST 2018
-base.0=/Users/vimalprakash/Documents/LetsPay/app/build/intermediates/transforms/dex/release/0
-path.0=classes.dex
-renamed.0=classes.dex

@@ -1,26 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\D\\projects\\LetsPay\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v12\\values-v12.xml",
+            "outputFile": "C:\\D\\Android\\Kotlin-Android-App-MVP\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v12\\values-v12.xml",
             "map": [
                 {
                     "source": "C:\\Users\\vimal\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\230b85a02e0cd414968b394ca0decc01\\res\\values-v12\\values-v12.xml",
-                    "from": {
-                        "startLines": "2,5,8,9",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,279,479,598",
-                        "endLines": "4,7,8,9",
-                        "endColumns": "12,12,118,94",
-                        "endOffsets": "274,474,593,688"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "C:\\Users\\vimalprakash\\Documents\\LetsPay\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v12\\values-v12.xml",
-            "map": [
-                {
-                    "source": "C:\\Users\\vimalprakash\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\bc1971ede788c97b6ee04cb60a8c3692\\res\\values-v12\\values-v12.xml",
                     "from": {
                         "startLines": "2,5,8,9",
                         "startColumns": "4,4,4,4",

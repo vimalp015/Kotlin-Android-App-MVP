@@ -1,4 +1,4 @@
-# letspay
+# Transactions App
 Android Kotlin application to display a list of transaction for an account using recycler view and multiple view holder types
 
 FEATURES

@@ -13,18 +13,18 @@ import io.reactivex.observers.DisposableSingleObserver
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class TransactionPresenter(private val mLetsPayApi: LetsPayApi, private val mSchedulersProvider: SchedulersProvider) : TransactionContract.Presenter {
+class TransactionPresenter(private val letsPayApi: LetsPayApi, private val schedulersProvider: SchedulersProvider) : TransactionContract.Presenter {
 
-    private var mView: TransactionContract.View? = null
+    private var view: TransactionContract.View? = null
 
-    private val mDisposables = CompositeDisposable()
+    private val disposables = CompositeDisposable()
 
-    private val mAtms = ArrayList<Atm>()
+    private val atms = ArrayList<Atm>()
 
-    private val mTransactionRowModels = ArrayList<TransactionRowModel>()
+    private val transactionRowModels = ArrayList<TransactionRowModel>()
 
     override val itemCount: Int
-        get() = mTransactionRowModels.size
+        get() = transactionRowModels.size
 
     /**
      * The presenter sets the view holder and hence we can write Unit Tests for the below logic since it does not depend on Android framework
@@ -33,7 +33,7 @@ class TransactionPresenter(private val mLetsPayApi: LetsPayApi, private val mSch
         when (getItemViewType(position)) {
             ACCOUNT_SUMMARY.value -> {
                 val accountSummaryViewHolder = holder as AccountSummaryViewHolder
-                val accountSummary = mTransactionRowModels[position].accountSummary
+                val accountSummary = transactionRowModels[position].accountSummary
                 accountSummaryViewHolder.setAccountName(accountSummary?.accountName!!)
                 accountSummaryViewHolder.setAccountNumber(accountSummary.accountNumber.toString())
                 accountSummaryViewHolder.setAvailableFunds(getCurrencyString(accountSummary.available))
@@ -42,14 +42,14 @@ class TransactionPresenter(private val mLetsPayApi: LetsPayApi, private val mSch
 
             TRANSACTION_HEADER.value -> {
                 val transactionHeaderViewHolder = holder as TransactionHeaderViewHolder
-                val transactionHeader = mTransactionRowModels[position].transactionHeader
+                val transactionHeader = transactionRowModels[position].transactionHeader
                 transactionHeaderViewHolder.setTransactionDate(formatDateToDisplay(transactionHeader?.transactionDate!!))
                 transactionHeaderViewHolder.setTransactionDuration(transactionHeader.transactionDuration)
             }
 
             COMPLETED_TRANSACTION.value -> {
                 val transactionCompletedDetailsViewHolder = holder as TransactionDetailsViewHolder
-                val transactionCompleted = mTransactionRowModels[position].transactionCompleted
+                val transactionCompleted = transactionRowModels[position].transactionCompleted
                 transactionCompletedDetailsViewHolder.setTransactionDescription(replaceHtml(transactionCompleted?.description!!))
                 transactionCompletedDetailsViewHolder.setAvailableFunds(getCurrencyString(transactionCompleted.amount))
                 transactionCompletedDetailsViewHolder.setPendingLabelVisibility(false)
@@ -62,7 +62,7 @@ class TransactionPresenter(private val mLetsPayApi: LetsPayApi, private val mSch
 
             PENDING_TRANSACTION.value -> {
                 val transactionPendingDetailsViewHolder = holder as TransactionDetailsViewHolder
-                val transactionPending = mTransactionRowModels[position].transactionPending
+                val transactionPending = transactionRowModels[position].transactionPending
                 transactionPendingDetailsViewHolder.setTransactionDescription(replaceHtml(transactionPending?.description!!))
                 transactionPendingDetailsViewHolder.setAvailableFunds(getCurrencyString(transactionPending.amount))
                 transactionPendingDetailsViewHolder.setPendingLabelVisibility(true)
@@ -78,95 +78,93 @@ class TransactionPresenter(private val mLetsPayApi: LetsPayApi, private val mSch
     override fun getAccountDetails() {
 
         if (isViewAttached) {
-            mView!!.showLoading()
+            view?.showLoading()
         }
 
-        mDisposables.add(mLetsPayApi.accountDetails
-                .subscribeOn(mSchedulersProvider.io())
-                .observeOn(mSchedulersProvider.mainUiThread())
+        disposables.add(letsPayApi.accountDetails
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.mainUiThread())
                 .subscribeWith(object : DisposableSingleObserver<ServerResponse>() {
 
                     override fun onSuccess(response: ServerResponse) {
-                        mTransactionRowModels.clear()
-                        mAtms.clear()
-                        mAtms.addAll(response.atms!!)
-                        val mSortedTransaction = ArrayList<Transaction>()
+                        transactionRowModels.clear()
+                        atms.clear()
+                        atms.addAll(response.atms!!)
+                        val sortedTransaction = ArrayList<Transaction>()
 
                         if(response.transactionCompleteds != null) {
-                            mSortedTransaction.addAll(response.transactionCompleteds!!)
+                            sortedTransaction.addAll(response.transactionCompleteds!!)
                         }
                         if(response.transactionPending != null) {
-                            mSortedTransaction.addAll(response.transactionPending!!)
+                            sortedTransaction.addAll(response.transactionPending!!)
                         }
 
                         //Let us sort the transaction on effective date (pending + completed)
-                        Collections.sort(mSortedTransaction) { feed1, feed2 ->
-                            if (feed1.effectiveDate?.after(feed2.effectiveDate)!!) {
-                                -1
-                            } else if (feed1.effectiveDate?.after(feed2.effectiveDate)!!) {
-                                1
-                            } else {
-                                0
+                        sortedTransaction.sortWith(Comparator { feed1, feed2 ->
+                            when {
+                                feed1.effectiveDate?.after(feed2.effectiveDate)!! -> -1
+                                feed1.effectiveDate?.after(feed2.effectiveDate)!! -> 1
+                                else -> 0
                             }
-                        }
+                        })
 
-                        //once we have the sorted transaction, we need to populate mTransactionRowModels that we will use for recycler view
-                        for (i in mSortedTransaction.indices) {
-                            val transaction = mSortedTransaction[i]
+                        //once we have the sorted transaction, we need to populate transactionRowModels that we will use for recycler view
+                        for (i in sortedTransaction.indices) {
+                            val transaction = sortedTransaction[i]
 
 
                             if (i == 0) {
-                                mTransactionRowModels.add(TransactionRowModel(response.account!!, ACCOUNT_SUMMARY))
-                                mTransactionRowModels.add(TransactionRowModel(transaction.effectiveDate!!, getTransactionDurationText(transaction),
+                                transactionRowModels.add(TransactionRowModel(response.account!!, ACCOUNT_SUMMARY))
+                                transactionRowModels.add(TransactionRowModel(transaction.effectiveDate!!, getTransactionDurationText(transaction),
                                         TRANSACTION_HEADER))
-                            } else if (transaction.effectiveDate!!.compareTo(mSortedTransaction[i - 1].effectiveDate) != 0) {
-                                mTransactionRowModels.add(TransactionRowModel(transaction.effectiveDate!!, getTransactionDurationText(transaction),
+                            } else if (transaction.effectiveDate!!.compareTo(sortedTransaction[i - 1].effectiveDate) != 0) {
+                                transactionRowModels.add(TransactionRowModel(transaction.effectiveDate!!, getTransactionDurationText(transaction),
                                         TRANSACTION_HEADER))
                             }
 
                             //we need to set the row according to the transaction type. Either completed or pending
                             if (transaction.transactionType == PENDING_TRANSACTION) {
-                                mTransactionRowModels.add(TransactionRowModel(transaction as TransactionPending, PENDING_TRANSACTION))
+                                transactionRowModels.add(TransactionRowModel(transaction as TransactionPending, PENDING_TRANSACTION))
                             } else {
-                                mTransactionRowModels.add(TransactionRowModel(transaction as TransactionCompleted, COMPLETED_TRANSACTION))
+                                transactionRowModels.add(TransactionRowModel(transaction as TransactionCompleted, COMPLETED_TRANSACTION))
                             }
                         }
 
                         //update view with the latest transactions
                         if (isViewAttached) {
-                            mView!!.hideLoading()
-                            mView!!.updateTransactions()
-                            mView!!.setCouldNotLoadLayoutVisibility(false)
+                            view!!.hideLoading()
+                            view!!.updateTransactions()
+                            view!!.setCouldNotLoadLayoutVisibility(false)
                         }
                     }
 
                     override fun onError(e: Throwable) {
                         if (isViewAttached) {
-                            mView!!.hideLoading()
-                            mView!!.setCouldNotLoadLayoutVisibility(true)
+                            view!!.hideLoading()
+                            view!!.setCouldNotLoadLayoutVisibility(true)
                         }
                     }
                 }))
     }
 
     override fun attachView(view: TransactionContract.View) {
-        mView = view
+        this.view = view
         getAccountDetails()
     }
 
     override fun detachView() {
-        mView = null
+        view = null
     }
 
     override fun clearDisposables() {
-        mDisposables.clear()
+        disposables.clear()
     }
 
     override fun showAtmLocation(position: Int) {
-        if (isViewAttached && position >= 0 && position < mTransactionRowModels.size) {
+        if (isViewAttached && position >= 0 && position < transactionRowModels.size) {
             when (getItemViewType(position)) {
                 COMPLETED_TRANSACTION.value -> {
-                    val transactionCompleted = mTransactionRowModels[position].transactionCompleted
+                    val transactionCompleted = transactionRowModels[position].transactionCompleted
                     //if the selection transaction do not have a ATM, then break
                     if (transactionCompleted?.atmId == null) {
                         return
@@ -174,7 +172,7 @@ class TransactionPresenter(private val mLetsPayApi: LetsPayApi, private val mSch
 
                     //Get the selected ATM detail and if we could not get the detail of selected ATM, then break
                     var atmToDisplay: Atm? = null
-                    for (atm in mAtms) {
+                    for (atm in atms) {
                         if (atm.id == transactionCompleted.atmId) {
                             atmToDisplay = atm
                             break
@@ -185,14 +183,14 @@ class TransactionPresenter(private val mLetsPayApi: LetsPayApi, private val mSch
                     }
 
                     val location = atmToDisplay.location
-                    mView!!.showAtmLocationOnMap(location!!.lat!!.toString(), location.lng!!.toString(), atmToDisplay.name.toString())
+                    view!!.showAtmLocationOnMap(location!!.lat!!.toString(), location.lng!!.toString(), atmToDisplay.name.toString())
                 }
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return mTransactionRowModels[position].viewType.value
+        return transactionRowModels[position].viewType.value
     }
 
     private fun getTransactionDurationText(transaction: Transaction): String {
@@ -209,13 +207,13 @@ class TransactionPresenter(private val mLetsPayApi: LetsPayApi, private val mSch
     }
 
     private val isViewAttached: Boolean
-        get() = mView != null
+        get() = view != null
 
     companion object {
 
-        private val TODAY = "Today"
-        private val ONE_DAY_AGO = "1 day ago"
-        private val DAYS_AGO = "%s days ago"
+        private const val TODAY = "Today"
+        private const val ONE_DAY_AGO = "1 day ago"
+        private const val DAYS_AGO = "%s days ago"
 
         private fun getDifferenceDays(d1: Date, d2: Date): Long {
             val diff = d2.time - d1.time

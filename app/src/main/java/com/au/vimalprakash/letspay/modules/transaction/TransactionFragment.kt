@@ -6,20 +6,18 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
-import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.au.vimalprakash.letspay.LetsPayApplication
 import com.au.vimalprakash.letspay.R
+import kotlinx.android.synthetic.main.fragment_account_details.view.*
 import java.util.*
 import javax.inject.Inject
 
@@ -30,21 +28,12 @@ import javax.inject.Inject
 
 class TransactionFragment : Fragment(), TransactionContract.View {
 
-    @BindView(R.id.swipe_container)
-    lateinit var mSwipeContainer: SwipeRefreshLayout
-
-    @BindView(R.id.recycler_view)
-    lateinit var mRecyclerView: RecyclerView
-
-    @BindView(R.id.error_loading_layout)
-    lateinit var mErrorLoadingLayout: View
-
-    private var mAdapter: TransactionAdapter? = null
+    private var adapter: TransactionAdapter? = null
 
     private var progress: ProgressDialog? = null
 
     @Inject
-    lateinit var mPresenter: TransactionContract.Presenter
+    lateinit var presenter: TransactionContract.Presenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_account_details, container, false)
@@ -56,33 +45,33 @@ class TransactionFragment : Fragment(), TransactionContract.View {
         ButterKnife.bind(this, view!!)
 
         //inject our presenter here
-        LetsPayApplication.instance!!.activityComponents.inject(this)
+        LetsPayApplication.instance!!.components.inject(this)
 
         val layoutManager = LinearLayoutManager(context)
-        mRecyclerView.layoutManager = layoutManager
-        mAdapter = TransactionAdapter(mPresenter)
-        mRecyclerView.adapter = mAdapter
+        view.recycler_view.layoutManager = layoutManager
+        adapter = TransactionAdapter(presenter)
+        view.recycler_view.adapter = adapter
 
-        mSwipeContainer.setOnRefreshListener { mPresenter.getAccountDetails() }
+        view.swipe_container.setOnRefreshListener { presenter.getAccountDetails() }
     }
 
     override fun onResume() {
         super.onResume()
-        mPresenter.attachView(this)
+        presenter.attachView(this)
     }
 
     override fun onPause() {
         super.onPause()
-        mPresenter.detachView()
+        presenter.detachView()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mPresenter.clearDisposables()
+        presenter.clearDisposables()
     }
 
     override fun updateTransactions() {
-        mAdapter!!.notifyDataSetChanged()
+        adapter!!.notifyDataSetChanged()
     }
 
     override fun showLoading() {
@@ -97,7 +86,7 @@ class TransactionFragment : Fragment(), TransactionContract.View {
     }
 
     override fun hideLoading() {
-        mSwipeContainer.isRefreshing = false
+        view?.swipe_container?.isRefreshing = false
         if (progress != null && progress!!.isShowing) {
             progress!!.dismiss()
         }
@@ -105,11 +94,11 @@ class TransactionFragment : Fragment(), TransactionContract.View {
 
     override fun setCouldNotLoadLayoutVisibility(showCouldNotLoadLayout: Boolean) {
         if (showCouldNotLoadLayout) {
-            mErrorLoadingLayout.visibility = VISIBLE
-            mSwipeContainer.visibility = GONE
+            view?.error_loading_layout?.visibility = VISIBLE
+            view?.swipe_container?.visibility = GONE
         } else {
-            mSwipeContainer.visibility = VISIBLE
-            mErrorLoadingLayout.visibility = GONE
+            view?.error_loading_layout?.visibility = VISIBLE
+            view?.swipe_container?.visibility = GONE
         }
     }
 
@@ -141,7 +130,7 @@ class TransactionFragment : Fragment(), TransactionContract.View {
 
     @OnClick(R.id.try_again_button)
     fun onTryAgain() {
-        mPresenter.getAccountDetails()
+        presenter.getAccountDetails()
     }
 
     companion object {
